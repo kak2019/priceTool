@@ -1,8 +1,14 @@
 import time
 import tushare as ts
+import configparser
+# 读取配置文件
+config = configparser.ConfigParser()
+config.read('config.ini')
 
-# 设置 Tushare 的 API token
-ts.set_token('5be574099985a4a9564118e4812f7a2bab3ee9619ad8e3a23b025141')
+# 从配置文件中获取 Tushare 的 API token
+ts_token = config['tushare']['api_token']
+ts.set_token(ts_token)
+
 
 while True:
     # 获取实时行情数据

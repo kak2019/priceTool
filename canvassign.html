@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas 标注示例</title>
+    <style>
+        #myCanvas {
+            border: 1px solid #000;
+            cursor: crosshair;
+            display: block;
+            margin-bottom: 10px;
+        }
+        button {
+            margin-right: 10px;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="myCanvas" width="600" height="400"></canvas>
+<button id="downloadBtn">下载图片</button>
+<button id="resetBtn">重置签名</button>
+
+<script>
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+    let isDrawing = false; // 是否正在绘制
+
+    // 初始化画布背景为白色
+    function initializeCanvas() {
+        ctx.fillStyle = 'white'; // 设置填充颜色为白色
+        ctx.fillRect(0, 0, canvas.width, canvas.height); // 绘制白色背景
+        ctx.strokeStyle = 'black'; // 设置绘制颜色为黑色
+        ctx.lineWidth = 2; // 设置线条宽度
+    }
+
+    initializeCanvas(); // 初始化画布
+
+    // 鼠标按下时，开始绘制
+    canvas.addEventListener('mousedown', (e) => {
+        isDrawing = true;
+        ctx.beginPath(); // 开始新路径
+        ctx.moveTo(e.offsetX, e.offsetY); // 设置起始点为鼠标位置
+    });
+
+    // 鼠标移动时，绘制路径
+    canvas.addEventListener('mousemove', (e) => {
+        if (isDrawing) {
+            ctx.lineTo(e.offsetX, e.offsetY); // 将路径连到鼠标当前位置
+            ctx.stroke(); // 绘制当前路径
+        }
+    });
+
+    // 鼠标松开时，结束绘制
+    canvas.addEventListener('mouseup', () => {
+        isDrawing = false;
+    });
+
+    // 鼠标移出 Canvas 时也停止绘制
+    canvas.addEventListener('mouseleave', () => {
+        isDrawing = false;
+    });
+
+    // 下载图片按钮功能
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL('image/png'); // 获取 Canvas 的图像数据
+        link.download = 'signature.png'; // 设置下载文件名
+        link.click(); // 触发下载
+    });
+
+    // 重置签名按钮功能
+    document.getElementById('resetBtn').addEventListener('click', () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // 清空 Canvas
+        initializeCanvas(); // 重新设置白色背景
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,12 @@
+<svg width="600" height="600" xmlns="http://www.w3.org/2000/svg">
+<polygon>
+<animate attributeType="XML" attributeName="points"
+dur="4s"
+fill="freeze"
+values="20,20 50,50 10,30; 30,50 80,90 50,10" />
+<animate attributeType="XML" attributeName="fill"
+dur="1s"
+fill="freeze"
+values="red;green" />
+</polygon>
+</svg>
